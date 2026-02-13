@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        IMAGE_NAME = "amarjeet001/static-web:55"
+        IMAGE_NAME = "amarjeet001/static-web"
     }
 
     stages {
