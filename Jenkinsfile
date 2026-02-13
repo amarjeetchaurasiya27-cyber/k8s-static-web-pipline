@@ -40,10 +40,10 @@ pipeline {
             steps {
 
                 // Apply Deployment
-                bat "kubectl apply -f k8s/development.yml"
+                bat "kubectl apply -f k8s/deployment.yml"
 
                 // Apply Service
-                bat "kubectl apply -f k8s/services.yml"
+                bat "kubectl apply -f k8s/service.yml"
 
                 // Update Image with new tag
                 bat "kubectl set image deployment/static-web static-web=%IMAGE_NAME%:%IMAGE_TAG%"
