@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        IMAGE_NAME = "amarjeetchaurasiya/static-web"
+        IMAGE_NAME = "amarjeet001/static-web"
         IMAGE_TAG  = "55"
     }
 
