@@ -44,7 +44,7 @@ pipeline {
                 /* Yahan 'docker-desktop-k8s' ki jagah wahi ID likhein jo aapne 
                    Secret File upload karte waqt Jenkins mein di thi.
                 */
-                withKubeConfig([credentialsId: 'docker-desktop-k8s']) {
+                withKubeConfig([credentialsId: 'k8s-config']) {
 
                     // Cluster se connection check karein
                     bat "kubectl get nodes"
