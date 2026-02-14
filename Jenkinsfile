@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         IMAGE_NAME = "amarjeet001/static-web"
-        IMAGE_TAG  = "55"
+        IMAGE_TAG  = "build-${BUILD_NUMBER}"
     }
 
     stages {
@@ -38,18 +38,23 @@ pipeline {
 
         stage('Deploy to Kubernetes') {
             steps {
+                withCredentials([file(credentialsId: 'kubeconfig-creds', variable: 'KUBECONFIG')]) {
 
-                // Apply Deployment
-                bat "kubectl apply -f k8s/deployment.yml"
+                    // Verify cluster connection
+                    bat "kubectl get nodes"
 
-                // Apply Service
-                bat "kubectl apply -f k8s/service.yml"
+                    // Apply Deployment YAML
+                    bat "kubectl apply -f k8s/deployment.yml"
 
-                // Update Image with new tag
-                bat "kubectl set image deployment/static-web static-web=%IMAGE_NAME%:%IMAGE_TAG%"
+                    // Apply Service YAML
+                    bat "kubectl apply -f k8s/service.yml"
 
-                // Check Rollout Status
-                bat "kubectl rollout status deployment/static-web"
+                    // Update image dynamically
+                    bat "kubectl set image deployment/static-web static-web=%IMAGE_NAME%:%IMAGE_TAG%"
+
+                    // Wait for rollout
+                    bat "kubectl rollout status deployment/static-web"
+                }
             }
         }
     }
